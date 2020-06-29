@@ -4025,6 +4025,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
                   n.push(t.litecoin.loadAccounts(e)),
                   n.push(t.dash.loadAccounts(e)),
                   n.push(t.dogecoin.loadAccounts(e)),
+                  n.push(t.denarius.loadAccounts(e)),
                   n.push(t.digibyte.loadAccounts(e)),
                   t.bitcoinCash && n.push(t.bitcoinCash.loadAccounts(e)),
                   t.bitcoinSV && n.push(t.bitcoinSV.loadAccounts(e)),
@@ -4062,6 +4063,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
                 t.litecoin = new i.InsightAccountListLoader(o.CoinName.Litecoin, "m/44'/" + s.CoinType.get(o.CoinName.Litecoin).coinTypeCode),
                 t.dash = new i.InsightAccountListLoader(o.CoinName.Dash, "m/44'/" + s.CoinType.get(o.CoinName.Dash).coinTypeCode),
                 t.dogecoin = new i.InsightAccountListLoader(o.CoinName.Dogecoin, "m/44'/" + s.CoinType.get(o.CoinName.Dogecoin).coinTypeCode),
+                t.denarius = new i.InsightAccountListLoader(o.CoinName.Denarius, "m/44'/" + s.CoinType.get(o.CoinName.Denarius).coinTypeCode),
                 t.digibyte = new i.InsightAccountListLoader(o.CoinName.DigiByte, "m/44'/" + s.CoinType.get(o.CoinName.DigiByte).coinTypeCode),
                 e = t.addBitcoinFork(s.CoinType.get(o.CoinName.BitcoinCash)),
                 t.bitcoinCashLegacy = e[0],
@@ -8347,6 +8349,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
             "bch" : 5,
             "btg" : 5,
             "dash": 5,
+            "d": 116,
             "ltc" : 5,
             "dgb" : 2,
             "doge": 5,
@@ -8368,11 +8371,11 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
           }
           var guardaco =
           {
-            "bsv" : "bsvbook",
+            "d" : "dbook",
           }
           if (guardaco[this.coinId])
           {
-            return this.rootUrl = "https://" + guardaco[this.coinId] + '.guarda.co/api'
+            return this.rootUrl = "https://" + guardaco[this.coinId] + '.denarius.pro/api'
           }
           throw "block indexer not defined for cointype " + this.coinId;
         }
@@ -8446,6 +8449,9 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
               case "doge":
                 t = "https://blockchair.com/dogecoin/transaction/" + e;
                 break;
+              case "d":
+                t = "https://coinexplorer.net/D/tx/" + e;
+                break;
               case "dgb":
                 t = "https://digiexplorer.info/tx/" + e;
                 break;
@@ -8503,6 +8509,9 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
               {
                 case c.CoinName.Bitcoin:
                   e.instances[c.CoinName.Bitcoin] = this.createInsightWalletApi("btc", l.CoinType.get(c.CoinName.Bitcoin));
+                  break;
+                case c.CoinName.Denarius:
+                  e.instances[c.CoinName.Denarius] = this.createInsightWalletApi("d", l.CoinType.get(c.CoinName.Denarius));
                   break;
                 case c.CoinName.Dogecoin:
                   e.instances[c.CoinName.Dogecoin] = this.createInsightWalletApi("doge", l.CoinType.get(c.CoinName.Dogecoin));
@@ -10501,6 +10510,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
       s = e("@keepkey/device-client/dist/global/coin-type"),
       d = e("./dash-fee-service"),
       c = e("./dogecoin-fee-service"),
+      z = e("./denarius-fee-service"),
       f = e("./digibyte-fee-service"),
       l = e("./ethereum-fee-service"),
       p = e("./litecoin-fee-service"),
@@ -10535,6 +10545,9 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
                   case o.CoinName.Dogecoin:
                     e.instances[t] = new c.DogecoinFeeService;
                     break;
+                  case o.CoinName.Denarius:
+                    e.instances[t] = new z.DenariusFeeService;
+                    break;
                   case o.CoinName.DigiByte:
                     e.instances[t] = new f.DigiByteFeeService;
                     break;
@@ -10561,6 +10574,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
     "./bitcoin-gold-fee-service": 100,
     "./dash-fee-service": 101,
     "./dogecoin-fee-service": 102,
+    "./denarius-fee-service": 116,
     "./ethereum-fee-service": 103,
     "./litecoin-fee-service": 105,
     "./digibyte-fee-service": 443,
@@ -15046,6 +15060,7 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
         e[e.Testnet = 1] = "Testnet",
         e[e.Namecoin = 7] = "Namecoin",
         e[e.Litecoin = 2] = "Litecoin",
+        e[e.Denarius = 116] = "Denarius",
         e[e.Dogecoin = 3] = "Dogecoin",
         e[e.Dash = 5] = "Dash",
         e[e.Ethereum = 6] = "Ethereum",
@@ -15342,6 +15357,12 @@ var _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
             name: s.CoinName[s.CoinName.Litecoin],
             addressFormat: "(^[LM][a-km-zA-HJ-NP-Z1-9]{26,33}$)|(^(ltc1)[a-zA-HJ-NP-Z0-9]{25,39}$)",
             dust: e.newDustCalculation(100000),
+            defaultDecimals: 8
+          },
+          {
+            name: s.CoinName[s.CoinName.Denarius],
+            addressFormat: "^[DA9][1-9A-HJ-NP-Za-km-z]{33}$",
+            dust: "100000000",
             defaultDecimals: 8
           },
           {

@@ -32,6 +32,19 @@ angular.module('kkTransactions', ['ngRoute', 'kkCommon', 'ui.bootstrap']).config
       }
     },
     {
+      name: 'Denarius',
+      currencySymbol: 'D',
+      coinTypeCode: '116\'',
+      coinType: 116,
+      addressFormat: '^D{1}[5-9A-HJ-NP-U]{1}[1-9A-HJ-NP-Za-km-z]{32}$',
+      dust: 1e8,
+      decimals: 8,
+      amountParameters:
+      {
+        DECIMAL_PLACES: 8
+      }
+    },
+    {
       name: 'Dogecoin',
       currencySymbol: 'DOGE',
       coinTypeCode: '3\'',
